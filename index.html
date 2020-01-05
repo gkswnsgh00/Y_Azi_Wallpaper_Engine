@@ -1,0 +1,175 @@
+<!--
+안녕하세요! 양아지 팬입니다 ㅎ
+2020년 새해복 모두 많이 받으세용~!
+원작자님이 아주 감사하게도 깃허브에 MIT라이센스로 올려주셔서 편하게 사인클릭시 노래가 나오는것과 
+배경을 수정할수 있었습니다~!
+원작자님께 감사하며 여기까지 소스를 열으셨다면 뭔가 수정할게 있으신거겠죠~!
+원작자님 깃허브랑 제 깃허브도 한번씩 봐주시면서 수정해주시면 감사하겠습니당 (__)
+-->
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>AziWallpaper</title>
+
+    <style media="screen">
+      html {
+        background-image: url('http://img.winsub.kr/images/UpHb2bakNBHC9UjGC7mgfzrDjItaab.png');
+        width: 100%;
+        height: 100%;
+      }
+      #azi {
+        position: fixed;
+
+        width: 250px;
+
+        top: 50%;
+        left: 50%;
+
+        transform: translate(-50%, -50%);
+      }
+
+      .controls {
+        position: fixed;
+
+        background-color: black;
+        /*font-*/color: white;
+
+        top: 0;
+        right: 0;
+
+        width: 200px;
+        height: 25px;
+        padding: 4px;
+        text-align: center;
+        vertical-align: center;
+      }
+    </style>
+    <script type="text/javascript">
+      console.log('AziPaper v1.0')
+      console.log('  by Seia-Soto (https://github.com/Seia-Soto)')
+
+      const preferences = {
+        resources: {
+          images: {
+            azi: {
+              common: './images/Azi_.png',
+              eyeClosed: './images/Azi_EyeClosed.png'
+            }
+          }
+        },
+        eyeBlinking: {
+          enabled: true,
+          intervalTime: 1000 * 2.75
+        },
+        app: {
+          development: true
+        }
+      }
+
+      if (isNaN(preferences.eyeBlinking.interval) || preferences.eyeBlinking.interval < 100) {
+        preferences.eyeBlinking.interval = 1000 * 2.75
+      }
+
+      function debug(text) {
+        const handlers = [
+          function nullFn() {
+            // NOTE: Production
+          },
+          function devFn(text) {
+            console.log(text)
+          }
+        ]
+
+        handlers[Number(preferences.app.development)](text)
+      }
+
+      // NOTE: Eye Blinking
+      function eyeBlinking() {
+        const Azi = document.querySelector('#azi')
+        const Patterns = [
+          function pattern() { // NOTE: Single
+            debug('Loading pattern: Single')
+
+            debug('Changing state to eye closed...')
+
+            Azi.src = preferences.resources.images.azi.eyeClosed
+
+            setTimeout(function returnToCommon() {
+              debug('Changing state to common...')
+
+              Azi.src = preferences.resources.images.azi.common
+            }, 250)
+          },
+          function pattern() { // NOTE: Double
+            debug('Loading pattern: Double')
+
+            debug('Changing state to eye closed...')
+
+            Azi.src = preferences.resources.images.azi.eyeClosed
+
+            setTimeout(function returnToCommon() {
+              debug('Changing state to common...')
+
+              Azi.src = preferences.resources.images.azi.common
+            }, 250)
+            setTimeout(function returnToCommon() {
+              debug('Changing state to eye closed...')
+
+              Azi.src = preferences.resources.images.azi.eyeClosed
+            }, 250 * 2)
+            setTimeout(function returnToCommon() {
+              debug('Changing state to common...')
+
+              Azi.src = preferences.resources.images.azi.common
+            }, 250 * 3)
+          }
+        ]
+
+        let k = 0
+
+        debug('Started eye blinking...')
+
+        setInterval(function launchPattern() {
+          if (preferences.eyeBlinking.enabled) {
+            Patterns[(k || 1) % 2]()
+
+            k += 1
+
+            /* If the number of patterns is 3 or upper than 3.
+            if ((k + 1) === Patterns.length) {
+              k = 0
+            }
+            */
+          }
+        }, preferences.eyeBlinking.interval)
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        eyeBlinking() // NOTE: Start right after install
+      })
+    </script>
+
+
+<script type="text/javascript">
+  var audio = new Audio();
+  audio.src = "https://winsub.kr/wallpaper/azi.mp3";
+  // 음악소리
+  audio.volume = "0.1";
+</script>
+
+  </head>
+  <body>
+    <img id="azi" src="./images/Azi_.png" alt="dkwl025">
+
+
+
+    <a onClick="audio.play();">
+    <img id="sign" class="sign" style="float:right; width:110px; height:60px;" src="http://img.winsub.kr/images/mrYDGmkKLb1Q816l2Po1usrlR0Mz0r.png" alt="dkwl025_sign">
+     </a>
+     
+  </body>
+    
+
+  
+</html>
